@@ -1,53 +1,51 @@
 name: Frontend Cine - CI
 
 on:
-push:
-branches: [ main, develop ]
-pull_request:
-branches: [ main ]
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-validate-frontend:
-name: Validate Frontend
-runs-on: ubuntu-latest
+  validate-frontend:
+    name: Validate Frontend
+    runs-on: ubuntu-latest
 
-```
-steps:
-  - name: Checkout code
-    uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-  - name: Check required files exist
-    run: |
-      echo "Verificando archivos obligatorios..."
-      test -f cinema/index.html      && echo "index.html OK"      || (echo "index.html NO" && exit 1)
-      test -f cinema/css/styles.css  && echo "styles.css OK"      || (echo "styles.css NO" && exit 1)
-      test -f cinema/js/api.js       && echo "api.js OK"          || (echo "api.js NO" && exit 1)
-      test -f cinema/js/movies.js    && echo "movies.js OK"       || (echo "movies.js NO" && exit 1)
-      test -f cinema/js/clients.js   && echo "clients.js OK"      || (echo "clients.js NO" && exit 1)
-      test -f cinema/js/rooms.js     && echo "rooms.js OK"        || (echo "rooms.js NO" && exit 1)
-      test -f cinema/js/rentals.js   && echo "rentals.js OK"      || (echo "rentals.js NO" && exit 1)
+      - name: Check required files exist
+        run: |
+          echo "Verificando archivos obligatorios..."
+          test -f cinema/index.html     && echo "index.html OK"    || (echo "index.html NO" && exit 1)
+          test -f cinema/css/styles.css && echo "styles.css OK"    || (echo "styles.css NO" && exit 1)
+          test -f cinema/js/api.js      && echo "api.js OK"        || (echo "api.js NO" && exit 1)
+          test -f cinema/js/movies.js   && echo "movies.js OK"     || (echo "movies.js NO" && exit 1)
+          test -f cinema/js/clients.js  && echo "clients.js OK"    || (echo "clients.js NO" && exit 1)
+          test -f cinema/js/rooms.js    && echo "rooms.js OK"      || (echo "rooms.js NO" && exit 1)
+          test -f cinema/js/rentals.js  && echo "rentals.js OK"    || (echo "rentals.js NO" && exit 1)
 
-  - name: Set up Node.js
-    uses: actions/setup-node@v4
-    with:
-      node-version: '20'
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-  - name: Validate JavaScript syntax
-    run: |
-      node --check cinema/js/api.js
-      node --check cinema/js/movies.js
-      node --check cinema/js/clients.js
-      node --check cinema/js/rooms.js
-      node --check cinema/js/rentals.js
-      echo "JS OK"
+      - name: Validate JavaScript syntax
+        run: |
+          node --check cinema/js/api.js
+          node --check cinema/js/movies.js
+          node --check cinema/js/clients.js
+          node --check cinema/js/rooms.js
+          node --check cinema/js/rentals.js
+          echo "JS OK"
 
-  - name: Validate HTML structure
-    run: |
-      grep -q "<!DOCTYPE html>" cinema/index.html && echo "DOCTYPE OK" || (echo "DOCTYPE FAIL" && exit 1)
-      grep -q "<html" cinema/index.html && echo "HTML tag OK" || (echo "HTML tag FAIL" && exit 1)
-      grep -q "api.js" cinema/index.html && echo "API ref OK" || (echo "API ref FAIL" && exit 1)
-      grep -q "styles.css" cinema/index.html && echo "CSS ref OK" || (echo "CSS ref FAIL" && exit 1)
+      - name: Validate HTML structure
+        run: |
+          grep -q "<!DOCTYPE html>" cinema/index.html && echo "DOCTYPE OK" || (echo "DOCTYPE FAIL" && exit 1)
+          grep -q "<html" cinema/index.html && echo "HTML tag OK" || (echo "HTML tag FAIL" && exit 1)
+          grep -q "api.js" cinema/index.html && echo "API ref OK" || (echo "API ref FAIL" && exit 1)
+          grep -q "styles.css" cinema/index.html && echo "CSS ref OK" || (echo "CSS ref FAIL" && exit 1)
 
-  - name: Summary
-    run: echo "Frontend validado correctamente"
-```
+      - name: Summary
+        run: echo "Frontend validado correctamente"
