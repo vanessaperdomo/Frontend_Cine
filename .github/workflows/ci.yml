@@ -1,58 +1,61 @@
 name: Frontend Cine - CI
 
 on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main ]
+push:
+branches: [ main, develop ]
+pull_request:
+branches: [ main ]
 
 jobs:
-  validate-frontend:
-    name: Validate Frontend
-    runs-on: ubuntu-latest
+validate-frontend:
+name: Validate Frontend
+runs-on: ubuntu-latest
 
-    steps:
-      # 1. Clonar el repositorio
-      - name: Checkout code
-        uses: actions/checkout@v4
+```
+steps:
+  # 1. Clonar el repositorio
+  - name: Checkout code
+    uses: actions/checkout@v4
 
-      # 2. Verificar que los archivos principales existen
-      - name: Check required files exist
-        run: |
-          echo "Verificando archivos obligatorios..."
-          test -f index.html      && echo "✅ index.html existe"      || (echo "❌ index.html no encontrado" && exit 1)
-          test -f css/styles.css  && echo "✅ styles.css existe"      || (echo "❌ styles.css no encontrado" && exit 1)
-          test -f js/api.js       && echo "✅ api.js existe"          || (echo "❌ api.js no encontrado" && exit 1)
-          test -f js/movies.js    && echo "✅ movies.js existe"       || (echo "❌ movies.js no encontrado" && exit 1)
-          test -f js/clients.js   && echo "✅ clients.js existe"      || (echo "❌ clients.js no encontrado" && exit 1)
-          test -f js/rooms.js     && echo "✅ rooms.js existe"        || (echo "❌ rooms.js no encontrado" && exit 1)
-          test -f js/rentals.js   && echo "✅ rentals.js existe"      || (echo "❌ rentals.js no encontrado" && exit 1)
+  # 2. Verificar que los archivos principales existen (RUTA CORREGIDA)
+  - name: Check required files exist
+    run: |
+      echo "Verificando archivos obligatorios..."
+      test -f cinema/index.html      && echo "✅ index.html existe"      || (echo "❌ index.html no encontrado" && exit 1)
+      test -f cinema/css/styles.css  && echo "✅ styles.css existe"      || (echo "❌ styles.css no encontrado" && exit 1)
+      test -f cinema/js/api.js       && echo "✅ api.js existe"          || (echo "❌ api.js no encontrado" && exit 1)
+      test -f cinema/js/movies.js    && echo "✅ movies.js existe"       || (echo "❌ movies.js no encontrado" && exit 1)
+      test -f cinema/js/clients.js   && echo "✅ clients.js existe"      || (echo "❌ clients.js no encontrado" && exit 1)
+      test -f cinema/js/rooms.js     && echo "✅ rooms.js existe"        || (echo "❌ rooms.js no encontrado" && exit 1)
+      test -f cinema/js/rentals.js   && echo "✅ rentals.js existe"      || (echo "❌ rentals.js no encontrado" && exit 1)
 
-      # 3. Instalar Node.js para validar sintaxis JS
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+  # 3. Instalar Node.js
+  - name: Set up Node.js
+    uses: actions/setup-node@v4
+    with:
+      node-version: '20'
 
-      # 4. Validar sintaxis de cada archivo JavaScript
-      - name: Validate JavaScript syntax
-        run: |
-          echo "Validando sintaxis de archivos JS..."
-          node --check js/api.js     && echo "✅ api.js     — sintaxis correcta"
-          node --check js/movies.js  && echo "✅ movies.js  — sintaxis correcta"
-          node --check js/clients.js && echo "✅ clients.js — sintaxis correcta"
-          node --check js/rooms.js   && echo "✅ rooms.js   — sintaxis correcta"
-          node --check js/rentals.js && echo "✅ rentals.js — sintaxis correcta"
+  # 4. Validar sintaxis JS (RUTA CORREGIDA)
+  - name: Validate JavaScript syntax
+    run: |
+      echo "Validando sintaxis de archivos JS..."
+      node --check cinema/js/api.js
+      node --check cinema/js/movies.js
+      node --check cinema/js/clients.js
+      node --check cinema/js/rooms.js
+      node --check cinema/js/rentals.js
+      echo "✅ Todos los JS correctos"
 
-      # 5. Verificar que el HTML tiene estructura básica correcta
-      - name: Validate HTML structure
-        run: |
-          echo "Verificando estructura HTML..."
-          grep -q "<!DOCTYPE html>" index.html && echo "✅ DOCTYPE encontrado"    || (echo "❌ DOCTYPE falta" && exit 1)
-          grep -q "<html"           index.html && echo "✅ tag html encontrado"   || (echo "❌ tag html falta" && exit 1)
-          grep -q "api.js"          index.html && echo "✅ api.js referenciado"   || (echo "❌ api.js no referenciado" && exit 1)
-          grep -q "styles.css"      index.html && echo "✅ CSS referenciado"      || (echo "❌ CSS no referenciado" && exit 1)
+  # 5. Validar HTML (RUTA CORREGIDA)
+  - name: Validate HTML structure
+    run: |
+      echo "Verificando estructura HTML..."
+      grep -q "<!DOCTYPE html>" cinema/index.html && echo "✅ DOCTYPE encontrado"    || (echo "❌ DOCTYPE falta" && exit 1)
+      grep -q "<html"           cinema/index.html && echo "✅ tag html encontrado"   || (echo "❌ tag html falta" && exit 1)
+      grep -q "api.js"          cinema/index.html && echo "✅ api.js referenciado"   || (echo "❌ api.js no referenciado" && exit 1)
+      grep -q "styles.css"      cinema/index.html && echo "✅ CSS referenciado"      || (echo "❌ CSS no referenciado" && exit 1)
 
-      # 6. Resumen final
-      - name: Summary
-        run: echo "✅ Frontend validado correctamente — listo para deploy"
+  # 6. Resumen
+  - name: Summary
+    run: echo "✅ Frontend validado correctamente — listo para deploy"
+```
