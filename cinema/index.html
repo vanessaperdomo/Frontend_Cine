@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cinema App — Sistema</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <div class="shell">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-icon">▶</span>
+        <span class="brand-name">Cinema</span>
+      </div>
+      <nav>
+        <button class="nav-btn active" data-tab="movies">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+          Películas
+        </button>
+        <button class="nav-btn" data-tab="clients">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Clientes
+        </button>
+        <button class="nav-btn" data-tab="rooms">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Salas
+        </button>
+        <button class="nav-btn" data-tab="rentals">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Rentas
+        </button>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="docs.html" class="docs-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Ver documentación
+        </a>
+      </div>
+    </aside>
+
+    <!-- ── CONTENIDO PRINCIPAL ── -->
+    <main class="content">
+
+      <!-- TAB: PELÍCULAS -->
+      <section id="tab-movies" class="tab active">
+        <div class="page-header">
+          <h1>Películas</h1>
+          <p>Gestión del catálogo de películas disponibles para renta.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2 id="movies-form-title">Nueva película</h2>
+          </div>
+          <form id="movie-form">
+            <div class="fields-full">
+              <div class="field">
+                <label for="movie-title">Título</label>
+                <input type="text" id="movie-title" placeholder="Ej: Inception" required />
+              </div>
+            </div>
+            <div class="fields-2">
+              <div class="field">
+                <label for="movie-genre">Género</label>
+                <input type="text" id="movie-genre" placeholder="Ej: Sci-Fi" required />
+              </div>
+              <div class="field">
+                <label for="movie-director">Director</label>
+                <input type="text" id="movie-director" placeholder="Ej: Christopher Nolan" required />
+              </div>
+            </div>
+            <div class="fields-3">
+              <div class="field">
+                <label for="movie-year">Año</label>
+                <input type="number" id="movie-year" placeholder="2010" min="1888" required />
+              </div>
+              <div class="field">
+                <label for="movie-duration">Duración (min)</label>
+                <input type="number" id="movie-duration" placeholder="148" min="1" required />
+              </div>
+              <div class="field">
+                <label for="movie-stock">Stock</label>
+                <input type="number" id="movie-stock" placeholder="5" min="0" required />
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="movie-submit-btn">Guardar película</button>
+              <button type="button" class="btn btn-ghost" id="movie-cancel-btn" style="display:none">Cancelar</button>
+            </div>
+          </form>
+          <div id="movie-message" class="msg hidden"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2>Catálogo</h2>
+            <button class="btn btn-ghost btn-sm" id="movies-refresh-btn">Actualizar</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Título</th><th>Género</th><th>Director</th>
+                  <th>Año</th><th>Duración</th><th>Stock</th><th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="movies-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: CLIENTES -->
+      <section id="tab-clients" class="tab">
+        <div class="page-header">
+          <h1>Clientes</h1>
+          <p>Registro de clientes que pueden realizar rentas.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2 id="clients-form-title">Nuevo cliente</h2>
+          </div>
+          <form id="client-form">
+            <div class="fields-2">
+              <div class="field">
+                <label for="client-firstname">Nombre</label>
+                <input type="text" id="client-firstname" placeholder="Ej: Juan" required />
+              </div>
+              <div class="field">
+                <label for="client-lastname">Apellido</label>
+                <input type="text" id="client-lastname" placeholder="Ej: Pérez" required />
+              </div>
+            </div>
+            <div class="fields-2">
+              <div class="field">
+                <label for="client-email">Email</label>
+                <input type="email" id="client-email" placeholder="juan@email.com" required />
+              </div>
+              <div class="field">
+                <label for="client-phone">Teléfono</label>
+                <input type="text" id="client-phone" placeholder="3001234567" />
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="client-submit-btn">Guardar cliente</button>
+              <button type="button" class="btn btn-ghost" id="client-cancel-btn" style="display:none">Cancelar</button>
+            </div>
+          </form>
+          <div id="client-message" class="msg hidden"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2>Clientes registrados</h2>
+            <button class="btn btn-ghost btn-sm" id="clients-refresh-btn">Actualizar</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nombre</th><th>Apellido</th><th>Email</th>
+                  <th>Teléfono</th><th>Registro</th><th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="clients-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: SALAS -->
+      <section id="tab-rooms" class="tab">
+        <div class="page-header">
+          <h1>Salas</h1>
+          <p>Salas de proyección disponibles en el cine.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2 id="rooms-form-title">Nueva sala</h2>
+          </div>
+          <form id="room-form">
+            <div class="fields-3">
+              <div class="field">
+                <label for="room-name">Nombre</label>
+                <input type="text" id="room-name" placeholder="Sala 1 - IMAX" required />
+              </div>
+              <div class="field">
+                <label for="room-capacity">Capacidad</label>
+                <input type="number" id="room-capacity" placeholder="200" min="1" required />
+              </div>
+              <div class="field">
+                <label for="room-type">Tipo</label>
+                <select id="room-type" required>
+                  <option value="">Seleccionar...</option>
+                  <option value="standard">Standard</option>
+                  <option value="3D">3D</option>
+                  <option value="IMAX">IMAX</option>
+                  <option value="VIP">VIP</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="room-submit-btn">Guardar sala</button>
+              <button type="button" class="btn btn-ghost" id="room-cancel-btn" style="display:none">Cancelar</button>
+            </div>
+          </form>
+          <div id="room-message" class="msg hidden"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2>Salas disponibles</h2>
+            <button class="btn btn-ghost btn-sm" id="rooms-refresh-btn">Actualizar</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Nombre</th><th>Capacidad</th><th>Tipo</th><th>Acciones</th></tr>
+              </thead>
+              <tbody id="rooms-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB: RENTAS -->
+      <section id="tab-rentals" class="tab">
+        <div class="page-header">
+          <h1>Rentas</h1>
+          <p>Registro de rentas de películas por cliente y sala.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2 id="rentals-form-title">Nueva renta</h2>
+          </div>
+          <form id="rental-form">
+            <div class="fields-3">
+              <div class="field">
+                <label for="rental-client">Cliente</label>
+                <select id="rental-client" required>
+                  <option value="">Seleccionar cliente...</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="rental-movie">Película</label>
+                <select id="rental-movie" required>
+                  <option value="">Seleccionar película...</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="rental-room">Sala</label>
+                <select id="rental-room" required>
+                  <option value="">Seleccionar sala...</option>
+                </select>
+              </div>
+            </div>
+            <div class="fields-3">
+              <div class="field">
+                <label for="rental-date">Fecha de renta</label>
+                <input type="date" id="rental-date" required />
+              </div>
+              <div class="field">
+                <label for="rental-return">Fecha de devolución</label>
+                <input type="date" id="rental-return" />
+              </div>
+              <div class="field">
+                <label for="rental-status">Estado</label>
+                <select id="rental-status">
+                  <option value="active">Activa</option>
+                  <option value="returned">Devuelta</option>
+                  <option value="overdue">Vencida</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary" id="rental-submit-btn">Guardar renta</button>
+              <button type="button" class="btn btn-ghost" id="rental-cancel-btn" style="display:none">Cancelar</button>
+            </div>
+          </form>
+          <div id="rental-message" class="msg hidden"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h2>Historial de rentas</h2>
+            <button class="btn btn-ghost btn-sm" id="rentals-refresh-btn">Actualizar</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Cliente</th><th>Película</th><th>Sala</th>
+                  <th>Renta</th><th>Devolución</th><th>Estado</th><th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="rentals-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/movies.js"></script>
+  <script src="js/clients.js"></script>
+  <script src="js/rooms.js"></script>
+  <script src="js/rentals.js"></script>
+  <script>
+    // Navegación entre tabs — activa la sección correcta al hacer clic
+    const tabs    = document.querySelectorAll(".tab");
+    const navBtns = document.querySelectorAll(".nav-btn");
+
+    navBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = btn.dataset.tab;
+
+        navBtns.forEach(b => b.classList.remove("active"));
+        tabs.forEach(t => t.classList.remove("active"));
+
+        btn.classList.add("active");
+        document.getElementById("tab-" + target).classList.add("active");
+
+        // Recargar datos cuando se entra al tab de rentas
+        if (target === "rentals") {
+          loadRentalSelects();
+          loadRentals();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

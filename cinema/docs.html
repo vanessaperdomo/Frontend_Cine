@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cinema App — Documentación</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-icon">▶</span>
+        <span class="brand-name">Cinema</span>
+      </div>
+      <nav>
+        <button class="nav-btn active">Documentación</button>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="index.html" class="docs-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          Volver al sistema
+        </a>
+      </div>
+    </aside>
+
+    <main class="content">
+      <div class="page-header">
+        <h1>Documentación del sistema</h1>
+        <p>Guía completa: cómo ejecutar el proyecto, glosario de términos y endpoints disponibles.</p>
+      </div>
+
+      <!-- CÓMO EJECUTAR -->
+      <div class="card">
+        <div class="card-head"><h2>Cómo ejecutar el proyecto</h2></div>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-n">1</div>
+            <div class="step-body">
+              <strong>Base de datos — levantar Docker</strong>
+              <p>Entrar a la carpeta <code>BaseDeDatos_Cine/cinema</code> y ejecutar:</p>
+              <pre>docker-compose up</pre>
+              <p>Esto levanta PostgreSQL en el puerto <strong>5433</strong>, crea las tablas automáticamente con Liquibase e inserta los datos iniciales. No se necesita hacer nada más.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-n">2</div>
+            <div class="step-body">
+              <strong>Backend — levantar la API</strong>
+              <p>Entrar a la carpeta <code>Backend_API_Cine/cinema</code> y ejecutar:</p>
+              <pre>mvn spring-boot:run</pre>
+              <p>La API quedará disponible en <strong>http://localhost:8080</strong>. Se necesita tener instalado Java 17 y Maven.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-n">3</div>
+            <div class="step-body">
+              <strong>Frontend — abrir en el navegador</strong>
+              <p>Entrar a la carpeta <code>Frontend_Cine/cinema</code> y abrir el archivo:</p>
+              <pre>index.html</pre>
+              <p>Se puede abrir con doble clic. No necesita servidor. Funciona directamente en el navegador.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-n">4</div>
+            <div class="step-body">
+              <strong>(Opcional) Swagger — documentación interactiva de la API</strong>
+              <p>Con la API corriendo, abrir en el navegador:</p>
+              <pre>http://localhost:8080/swagger-ui.html</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ARQUITECTURA -->
+      <div class="card">
+        <div class="card-head"><h2>Arquitectura del sistema</h2></div>
+        <div class="arch">
+          <div class="arch-box fe"><strong>Frontend</strong><span>HTML + CSS + JS</span></div>
+          <div class="arch-arrow">→ HTTP fetch →</div>
+          <div class="arch-box be"><strong>Backend</strong><span>Spring Boot :8080</span></div>
+          <div class="arch-arrow">→ JPA →</div>
+          <div class="arch-box db"><strong>Base de datos</strong><span>PostgreSQL :5433</span></div>
+        </div>
+        <p style="margin-top:16px;font-size:0.85rem;color:var(--muted)">
+          El Frontend se comunica con el Backend a través de peticiones HTTP usando la Fetch API de JavaScript.
+          El Backend transforma esas peticiones en consultas SQL que ejecuta en PostgreSQL a través de JPA (Java Persistence API).
+        </p>
+      </div>
+
+      <!-- ENDPOINTS -->
+      <div class="card">
+        <div class="card-head"><h2>Endpoints de la API</h2></div>
+
+        <div class="ep-group">
+          <h3>Películas — <code>/api/v1/movies</code></h3>
+          <div class="ep-row"><span class="method post">POST</span><code>/api/v1/movies</code><span>Crear una nueva película</span></div>
+          <div class="ep-row"><span class="method get">GET</span><code>/api/v1/movies</code><span>Listar todas las películas</span></div>
+          <div class="ep-row"><span class="method get">GET</span><code>/api/v1/movies/{id}</code><span>Buscar película por ID</span></div>
+          <div class="ep-row"><span class="method put">PUT</span><code>/api/v1/movies/{id}</code><span>Actualizar película</span></div>
+          <div class="ep-row"><span class="method del">DELETE</span><code>/api/v1/movies/{id}</code><span>Eliminar película</span></div>
+        </div>
+
+        <div class="ep-group">
+          <h3>Clientes — <code>/api/v1/clients</code></h3>
+          <div class="ep-row"><span class="method post">POST</span><code>/api/v1/clients</code><span>Crear un nuevo cliente</span></div>
+          <div class="ep-row"><span class="method get">GET</span><code>/api/v1/clients</code><span>Listar todos los clientes</span></div>
+          <div class="ep-row"><span class="method get">GET</span><code>/api/v1/clients/{id}</code><span>Buscar cliente por ID</span></div>
+          <div class="ep-row"><span class="method put">PUT</span><code>/api/v1/clients/{id}</code><span>Actualizar cliente</span></div>
+          <div class="ep-row"><span class="method del">DELETE</span><code>/api/v1/clients/{id}</code><span>Eliminar cliente</span></div>
+        </div>
+
+        <div class="ep-group">
+          <h3>Salas — <code>/api/v1/screening-rooms</code></h3>
+          <div class="ep-row"><span class="method post">POST</span><code>/api/v1/screening-rooms</code><span>Crear una nueva sala</span></div>
+          <div class="ep-row"><span class="method get">GET</span><code>/api/v1/screening-rooms</code><span>Listar todas las salas</span></div>
+          <div class="ep-row"><span class="method get">GET</span><code>/api/v1/screening-rooms/{id}</code><span>Buscar sala por ID</span></div>
+          <div class="ep-row"><span class="method put">PUT</span><code>/api/v1/screening-rooms/{id}</code><span>Actualizar sala</span></div>
+          <div class="ep-row"><span class="method del">DELETE</span><code>/api/v1/screening-rooms/{id}</code><span>Eliminar sala</span></div>
+        </div>
+
+        <div class="ep-group">
+          <h3>Rentas — <code>/api/v1/rentals</code></h3>
+          <div class="ep-row"><span class="method post">POST</span><code>/api/v1/rentals</code><span>Crear una nueva renta</span></div>
+          <div class="ep-row"><span class="method get">GET</span><code>/api/v1/rentals</code><span>Listar todas las rentas</span></div>
+          <div class="ep-row"><span class="method get">GET</span><code>/api/v1/rentals/{id}</code><span>Buscar renta por ID</span></div>
+          <div class="ep-row"><span class="method put">PUT</span><code>/api/v1/rentals/{id}</code><span>Actualizar renta</span></div>
+          <div class="ep-row"><span class="method del">DELETE</span><code>/api/v1/rentals/{id}</code><span>Eliminar renta</span></div>
+        </div>
+      </div>
+
+      <!-- GLOSARIO -->
+      <div class="card">
+        <div class="card-head"><h2>Glosario de términos</h2></div>
+        <table class="glossary">
+          <thead>
+            <tr><th>Término</th><th>Significado</th><th>Pronunciación</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>API</strong></td><td>Application Programming Interface — interfaz que permite que el frontend hable con el backend a través de peticiones HTTP</td><td>ei-pi-ai</td></tr>
+            <tr><td><strong>REST</strong></td><td>Representational State Transfer — estilo de arquitectura para crear APIs usando métodos HTTP (GET, POST, PUT, DELETE)</td><td>rest</td></tr>
+            <tr><td><strong>Endpoint</strong></td><td>Punto de acceso de la API — una URL específica que ejecuta una acción concreta</td><td>end-point</td></tr>
+            <tr><td><strong>CRUD</strong></td><td>Create, Read, Update, Delete — las 4 operaciones básicas sobre datos en cualquier sistema</td><td>crud</td></tr>
+            <tr><td><strong>Movie</strong></td><td>Película disponible en el sistema para ser rentada</td><td>mu-vi</td></tr>
+            <tr><td><strong>Client</strong></td><td>Cliente registrado en el sistema que puede realizar rentas</td><td>clai-ent</td></tr>
+            <tr><td><strong>Rental</strong></td><td>Renta — registro que conecta un cliente, una película y una sala en una fecha específica</td><td>ren-tal</td></tr>
+            <tr><td><strong>Screening Room</strong></td><td>Sala de proyección — espacio físico del cine donde se proyecta la película</td><td>scri-ning rum</td></tr>
+            <tr><td><strong>UUID</strong></td><td>Universally Unique Identifier — identificador único que se genera automáticamente y nunca se repite</td><td>yu-yu-ai-di</td></tr>
+            <tr><td><strong>Stock</strong></td><td>Cantidad de copias disponibles de una película para ser rentadas</td><td>stok</td></tr>
+            <tr><td><strong>DTO</strong></td><td>Data Transfer Object — objeto que transporta datos entre las capas del sistema sin exponer la entidad completa</td><td>di-ti-ou</td></tr>
+            <tr><td><strong>JPA</strong></td><td>Java Persistence API — estándar de Java para manejar la base de datos de forma orientada a objetos</td><td>jei-pi-ei</td></tr>
+            <tr><td><strong>CORS</strong></td><td>Cross-Origin Resource Sharing — configuración que permite al navegador hacer peticiones del frontend al backend</td><td>cors</td></tr>
+            <tr><td><strong>Liquibase</strong></td><td>Herramienta que aplica los scripts SQL automáticamente cada vez que se levanta Docker</td><td>li-kuei-beis</td></tr>
+            <tr><td><strong>Docker</strong></td><td>Plataforma que empaqueta la base de datos en un contenedor aislado y reproducible</td><td>do-ker</td></tr>
+            <tr><td><strong>Spring Boot</strong></td><td>Framework de Java que facilita la creación de APIs REST con configuración mínima</td><td>spring but</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- SOLID -->
+      <div class="card">
+        <div class="card-head"><h2>Principios aplicados en el backend</h2></div>
+        <table class="glossary">
+          <thead>
+            <tr><th>Principio</th><th>Qué significa</th><th>Cómo se aplica en este proyecto</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>S — Single Responsibility</strong></td><td>Cada clase tiene una sola responsabilidad</td><td>Controller recibe peticiones, Service ejecuta lógica, Repository accede a datos — cada uno hace solo su parte</td></tr>
+            <tr><td><strong>O — Open/Closed</strong></td><td>Abierto para extender, cerrado para modificar</td><td>Se puede agregar una nueva entidad sin tocar las existentes</td></tr>
+            <tr><td><strong>L — Liskov Substitution</strong></td><td>Las implementaciones pueden reemplazar a sus interfaces</td><td>MovieService es una interfaz; MovieServiceImpl es la implementación intercambiable</td></tr>
+            <tr><td><strong>I — Interface Segregation</strong></td><td>Interfaces específicas, no genéricas gigantes</td><td>Cada entidad tiene su propio Service e interfaz separados</td></tr>
+            <tr><td><strong>D — Dependency Inversion</strong></td><td>Depender de abstracciones, no de implementaciones</td><td>Los controllers dependen de la interfaz Service, no de la clase concreta</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+
+</body>
+</html>
